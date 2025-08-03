@@ -1,151 +1,151 @@
 * {
-    margin: 0;
-    padding: 0;
-    font-family: Poppins, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: Poppins, sans-serif;
 }
 
 .navbar {
-    background-color: #ec4747;
-    height: 8vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+  background-color: #ec4747;
+  height: 8vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
 }
 
 .bg-image {
-    height: 105vh;
-    width: 100%;
-background-image: url("../../assets/background.jpeg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    /* Put it behind your content */
+  height: 105vh;
+  width: 100%;
+  background-image: url("../../assets/background.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
-.navbar>.buttons>a {
-    font-size: 1.1rem;
-    /* font-weight: bold; */
-    color: white;
-    text-decoration: none;
-    opacity: 0.9;
+.navbar .buttons a {
+  font-size: 1.1rem;
+  color: white;
+  text-decoration: none;
+  opacity: 0.9;
+  margin-left: 1rem;
 }
 
 .buttons {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }
 
-
 .footer {
-    margin-top: 2rem;
-    height: 50vh;
-    width: 100%;
-    background-color: #000;
-    display: flex;
+  margin-top: 2rem;
+  height: 50vh;
+  width: 100%;
+  background-color: #000;
+  display: flex;
 }
 
 .footerHeading {
-    margin-bottom: 6px;
-    width: 180px;
-    text-align: left;
-    font-size: medium;
-    text-decoration: none;
-    color: white;
+  margin-bottom: 6px;
+  width: 180px;
+  text-align: left;
+  font-size: medium;
+  color: white;
 }
 
 .learnMore,
 .socials {
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
-    width: 50%;
-    display: inline-flex;
-    flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  width: 50%;
+  display: inline-flex;
+  flex-direction: column;
 }
 
-.learnMore>a,
-.socials>a {
-    margin: 2px;
-    width: 180px;
-    text-align: left;
-    font-size: 0.89rem;
-    text-decoration: none;
-    color: rgb(127, 123, 123);
+.learnMore a,
+.socials a {
+  margin: 2px;
+  width: 180px;
+  text-align: left;
+  font-size: 0.89rem;
+  text-decoration: none;
+  color: rgb(127, 123, 123);
 }
 
 .learnMore a:hover,
 .socials a:hover {
-    color: white;
-}
-
-
-.newContainer {
-    height: 50vh;
-    width: 60vw;
-    background-color: white;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-    border-radius: 15px;
-    transition: box-shadow 0.2s;
-
-    gap: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  color: white;
 }
 
 .entirePage {
-    height: 90vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+  height: 90vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.newContainer {
+  height: auto;
+  width: 60vw;
+  background-color: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  border-radius: 15px;
+  transition: box-shadow 0.2s;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
 
 .newContainer input {
-    height: 5vh;
-    width: 40vw;
-    border-radius: 15px;
-    border: 1px solid black;
-    padding-left: 2vw;
-    font-size: large;
+  height: 5vh;
+  width: 80%;
+  border-radius: 15px;
+  border: 1px solid black;
+  padding-left: 1rem;
+  font-size: large;
 }
 
 .submitButton {
-    background-color: #ec4747;
-    color: white;
-    height: 5vh;
-    width: 15vw;
-    border-radius: 15px;
-    font-size: large;
-    font-weight: 500;
-    box-shadow: none;
-    border: none;
-}
-
-h1 {
-    font-size: xx-large;
+  background-color: #ec4747;
+  color: white;
+  height: 5vh;
+  width: 30%;
+  border-radius: 15px;
+  font-size: large;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
 }
 
 .submitButton:active {
-    opacity: 0.8;
+  opacity: 0.8;
+}
+
+h1 {
+  font-size: xx-large;
 }
 
 .extra {
-
-    width: 50%;
-    display: flex;
-    justify-content: space-around;
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
 }
 
-.extra>a {
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-    font-size: large;
+.extra a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-size: large;
 }

@@ -1,65 +1,51 @@
 <!DOCTYPE html>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dine Deligt</title>
-  <link rel="stylesheet" href="../signup/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet" />
-    <meta name="description" content="Dine Delight - Hotel, Restaurant, QR Code Menu and Table Reservation system.">
-<link rel="icon" href="../../assets/favicon.ico" type="image/x-icon">
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 <body>
-<nav>
+
   <div class="bg-image"></div>
-        <div class="navbar">
-            <div class="logo">
-                <img src="../../assets/logo.png" alt="Logo">
-            </div>
-            <div class="buttons">
-             
 
-            </div>
-        </div>
-    </nav>
+  <nav class="navbar">
+    <div class="logo"><a href="#">Your Logo</a></div>
+    <div class="buttons">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+    </div>
+  </nav>
 
-    <section>
-    <div class="entirePage">
-      <div class="newContainer">
+  <div class="entirePage">
+    <div class="newContainer">
+      <form id="form" class="form">
         <h1>Register</h1>
-        <input type="text" name="name" id="name" placeholder="Enter your name">
-        <input type="email" name="mail" id="mail" placeholder="Enter your Email">
-
-        <input type="password" placeholder="Enter your password" name="password" id="password">
-        <button class="submitButton">Submit</button>
+        <input type="text" name="name" id="name" placeholder="Enter your name" required />
+        <input type="email" name="mail" id="mail" placeholder="Enter your email" required />
+        <input type="password" name="password" id="password" placeholder="Enter your password" required />
+        <button type="submit" class="submitButton">Submit</button>
         <div class="extra">
           <a href="../login/index.html">Account already exists?</a>
-
         </div>
-      </div>
+      </form>
     </div>
-    </section>
+  </div>
 
-    <footer>
-    <div class="footer">
-      <div class="learnMore">
-        <p class="footerHeading">Learn More</p>
-        <a href="../about/index.html">About Us</a>
-        <a href="../privacy/index.html">Privacy</a>
-        <a href="../terms/index.html">Terms of Service</a>
-        <a href="../support/index.html">Help and Support</a>
-        <a href="../contact/index.html">Contact Us</a>
-      </div>
-      <div class="socials">
-        <p class="footerHeading">Our Socials</p>
-        <a href="https://discord.com">Discord</a>
-        <a href="https://linkedin.com">LinkedIn</a>
-        <a href="https://twitter.com">Twitter</a>
-        <a href="https://youtube.com">Youtube</a>
-        <br />
-      </div>
+  <footer class="footer">
+    <div class="learnMore">
+      <div class="footerHeading">Learn More</div>
+      <a href="#">About</a>
+      <a href="#">Pricing</a>
+    </div>
+    <div class="socials">
+      <div class="footerHeading">Socials</div>
+      <a href="#">Instagram</a>
+      <a href="#">Twitter</a>
     </div>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
