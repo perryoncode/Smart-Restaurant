@@ -30,6 +30,12 @@ class User(BaseModel):
     password : str
 @app.post("/register")
 def register():
-    return 0
+    return {
+        "response" : "success"
+    }
 
-
+@app.post("/login")
+def register():
+    return {
+        "response" : "success"
+    }
