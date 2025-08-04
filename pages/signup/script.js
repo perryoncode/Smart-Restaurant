@@ -17,7 +17,7 @@ async function register(e) {
             password
         }
     )
-    const postBackend = await fetch("http://localhost:8000/register", {
+    const postBackend = await fetch("https://anya-restaurant.onrender.com/register", {
         headers: {
             "Content-Type": "application/json",
         },
