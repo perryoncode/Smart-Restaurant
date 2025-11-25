@@ -3,6 +3,10 @@ if (document.cookie.includes("name=")){
 }
 const form = document.querySelector(".form");
 const toaster = document.querySelector(".toaster");
+
+
+
+
 form.addEventListener("submit", login);
 async function login(e) {
     e.preventDefault();
@@ -10,7 +14,7 @@ async function login(e) {
     let password = document.querySelector("#password").value;
     const data = JSON.stringify({ mail, password });
     try {
-        const postBackend = await fetch("https://anya-restaurant.onrender.com/login", {
+        const postBackend = await fetch("http://20.197.51.157:8000/login", {
             headers: { "Content-Type": "application/json" },
             method: "POST",
             body: data

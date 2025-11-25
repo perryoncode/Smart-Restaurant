@@ -6,6 +6,9 @@ import os
 from pydantic import BaseModel,EmailStr
 load_dotenv()
 
+
+
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -17,7 +20,7 @@ app.add_middleware(
 
 
 
-client = MongoClient(os.getenv("MONGO_URI"))
+client = MongoClient("mongodb+srv://codewithperry:uYIoXdcbIBi3qdBh@cluster0.iub7ykj.mongodb.net/")
 db = client["Restaurant"]
 userCollection = db["users"]
 
@@ -69,3 +72,13 @@ def login(user: LoginUser):
         return {"response": "success" , "user": userInDb}
     else: #use password manager 👍🏻
         return {"response": "wrongPassword"}
+    
+
+
+
+@app.get("/table/{tableID}")
+def tableResolver(tableID):
+    return {
+        "data" : tableID
+        
+    }

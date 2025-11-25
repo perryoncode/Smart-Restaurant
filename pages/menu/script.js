@@ -1,3 +1,6 @@
+
+
+
 if (document.cookie.includes("name=") == false){
     window.location.href = "../signup/"
 }
