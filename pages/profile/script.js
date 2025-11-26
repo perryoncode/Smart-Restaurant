@@ -136,8 +136,6 @@ if (logoutButton) {
 // ==== INITIAL DATA LOAD ====
 async function initProfilePage() {
   const userId = getCookie("id");
-  const cookieName = getCookie("name");
-  const cookieMail = getCookie("mail");
   const role = getCookie("role"); // optional, if you set it
 
   if (!userId) {
@@ -146,72 +144,35 @@ async function initProfilePage() {
     return;
   }
 
-  // ----- TABLE ACCOUNT BRANCH -----
-  const tableInfo = getTableInfo(cookieMail);
-  const isTable = role === "table" || !!tableInfo;
-
-  if (isTable) {
-    const tableLabel = tableInfo?.label || cookieName || "Table";
-
-    // Name: Table X
-    if (usernameInput) {
-      usernameInput.value = tableLabel;
-    }
-
-    // Email: whatever is in cookie (tableX@... or X@...)
-    if (emailInput) {
-      emailInput.value = cookieMail || "";
-    }
-
-    // Address: Table X (not editable)
-    if (addressInput) {
-      addressInput.value = tableLabel;
-    }
-
-    // Update navbar name too
-    if (myProfile) {
-      myProfile.innerHTML = `<i class="fa-solid fa-user"></i> ${tableLabel}`;
-    }
-
-    lockTableProfileUI(tableLabel);
-    // IMPORTANT: do NOT fetch profile from API, do NOT allow saving
-    return;
-  }
-
-  // ----- NORMAL USER BRANCH -----
-  enableUserProfileUI();
-
-  // Pre-fill from cookies
-  if (usernameInput && cookieName) {
-    usernameInput.value = cookieName;
-  }
-  if (emailInput && cookieMail) {
-    emailInput.value = cookieMail;
-  }
-
-  // Optionally fetch more details from backend (address, updated name, etc.)
+  // Always fetch from backend
   try {
-    const res = await fetch(
-      `${API_BASE}/profile?id=${encodeURIComponent(userId)}`
-    );
+    const res = await fetch(`${API_BASE}/profile?id=${encodeURIComponent(userId)}`);
     if (!res.ok) return;
-
     const data = await res.json();
     if (data.response !== "success" || !data.user) return;
-
     const user = data.user;
 
-    if (usernameInput && user.name) {
-      usernameInput.value = user.name;
+    // Table account detection (if needed)
+    const tableInfo = getTableInfo(user.email);
+    const isTable = role === "table" || !!tableInfo;
+    if (isTable) {
+      const tableLabel = tableInfo?.label || user.name || "Table";
+      if (usernameInput) usernameInput.value = tableLabel;
+      if (emailInput) emailInput.value = user.email || "";
+      if (addressInput) addressInput.value = tableLabel;
+      if (myProfile) myProfile.innerHTML = `<i class="fa-solid fa-user"></i> ${tableLabel}`;
+      lockTableProfileUI(tableLabel);
+      return;
     }
-    if (emailInput && user.email) {
-      emailInput.value = user.email;
-    }
-    if (addressInput && user.address) {
-      addressInput.value = user.address;
-    }
+
+    // Normal user: fill all fields from backend
+    enableUserProfileUI();
+    if (usernameInput) usernameInput.value = user.name || "";
+    if (emailInput) emailInput.value = user.email || "";
+    if (addressInput) addressInput.value = user.address || "";
+    if (myProfile) myProfile.innerHTML = `<i class="fa-solid fa-user"></i> ${user.name || "Profile"}`;
   } catch (err) {
-    console.warn("Could not load extra profile info:", err);
+    console.warn("Could not load profile info:", err);
   }
 }
 
@@ -252,15 +213,15 @@ if (profileForm) {
     }
 
     try {
+
+      // Prepare payload for /update_profile
       const payload = {
-        id: userId,
-        name,
-        email,
-        address,
+        mail: email, // backend expects 'mail'
+        address: address,
+        // icon: iconValue, // add if you support icon upload
       };
 
-      // Adjust this to match your backend route & structure
-      const res = await fetch(`${API_BASE}/profile`, {
+      const res = await fetch(`${API_BASE}/update_profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -305,4 +266,18 @@ if (profileForm) {
 }
 
 // ==== RUN INIT ====
+
+// Show toaster if redirected from checkout due to missing address
+if (localStorage.getItem("showAddressToaster") === "1") {
+  setInfoMessage("Please add a valid address to proceed with checkout.");
+  infoMessageEl.style.backgroundColor = "#fd9d1fff";
+  infoMessageEl.style.color = "#fff";
+  setTimeout(() => {
+    infoMessageEl.textContent = "";
+    infoMessageEl.style.backgroundColor = "";
+    infoMessageEl.style.color = "";
+    localStorage.removeItem("showAddressToaster");
+  }, 3500);
+}
+
 initProfilePage();

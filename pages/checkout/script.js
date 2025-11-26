@@ -250,4 +250,29 @@ if (backToMenuBtn) {
 }
 
 // ==== INITIAL RENDER ====
+
+// ==== ADDRESS CHECK ON LOAD ====
+(async function checkUserAddress() {
+  const userId = getCookie("id");
+  const userMail = getCookie("mail");
+  if (!userId || !userMail) {
+    window.location.href = "../login/index.html";
+    return;
+  }
+  try {
+    const res = await fetch(`${API_BASE}/profile?id=${encodeURIComponent(userId)}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.response !== "success" || !data.user) return;
+    const address = data.user.address;
+    if (!address || address.trim() === "") {
+      // Set a flag for toaster on profile page
+      localStorage.setItem("showAddressToaster", "1");
+      window.location.href = "../profile/index.html";
+    }
+  } catch (err) {
+    // Optionally handle error
+  }
+})();
+
 renderCart();
