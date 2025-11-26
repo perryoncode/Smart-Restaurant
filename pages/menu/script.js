@@ -3,7 +3,7 @@ setTimeout(() => {
   }
 }, 2000);
 
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "http://20.197.51.157:8000";
 
 const menuContainer = document.querySelector(".menu");
 const input = document.getElementById("searchInput");

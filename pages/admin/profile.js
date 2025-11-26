@@ -1,5 +1,5 @@
 (function(){
-  const API_BASE = (typeof window !== 'undefined') ? (window.API_BASE || 'http://127.0.0.1:8000') : 'http://127.0.0.1:8000';
+  const API_BASE = (typeof window !== 'undefined') ? (window.API_BASE || 'http://20.197.51.157:8000') : 'http://20.197.51.157:8000';
   const token = localStorage.getItem('admin_token');
   const usernameInput = document.getElementById('username');
   const emailInput = document.getElementById('email');
