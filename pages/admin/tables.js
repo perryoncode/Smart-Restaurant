@@ -234,6 +234,18 @@ function qrIconSvg() {
 	return '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3z"/><path d="M17 17v4M21 17h-4M21 21h-4"/></svg>';
 }
 
+	// Resolve the base URL to encode in the QR.
+	// Allows overriding via localStorage key `QR_BASE_URL` (e.g., https://your-domain.com).
+	function getQrBase() {
+		try {
+			const saved = localStorage.getItem('QR_BASE_URL');
+			if (saved && /^https?:\/\//i.test(saved)) {
+				return saved.replace(/\/+$/, '');
+			}
+		} catch (e) {}
+		return window.location.origin.replace(/\/+$/, '');
+	}
+
 function editIconSvg() {
 	return '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>';
 }
@@ -243,7 +255,9 @@ function trashIconSvg() {
 }
 
 function openQrForTable(tableId) {
-	const url = `${window.location.origin}/pages/scanqr/index.html?tableId=${tableId}`;
+		const base = getQrBase();
+		// Include a trailing slash before the query string for better scanner compatibility
+		const url = `${base}/pages/scanqr/index.html/?tableId=${tableId}/`;
 	const win = window.open('', '_blank');
 	if (!win) return; // popup blocked
 	win.document.write('<!DOCTYPE html><html><head><title>Table QR</title><meta name="viewport" content="width=device-width, initial-scale=1"/></head><body style="font-family: system-ui, -apple-system, Segoe UI, Roboto; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; background:#fff; color:#333;"><div id="wrap" style="text-align:center;"><div id="qr"></div><div style="margin-top:12px; font-size:14px; word-break:break-all;"></div></div></body></html>');

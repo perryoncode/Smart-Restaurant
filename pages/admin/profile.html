@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://kit.fontawesome.com/a9eb96d961.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Profile | Smart Restaurant</title>
+  <!-- Reuse user profile styling for similar look -->
+  <link rel="stylesheet" href="../profile/style.css" />
+  <!-- Keep admin base styles if needed -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../../assets/logo.png" alt="Logo" />
+    </div>
+    <div class="buttons">
+      <a class="logoutButton" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+    </div>
+  </nav>
+  <script src="admin-auth.js"></script>
+  <main>
+    <div class="cont profile-page">
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="avatar">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <div class="profile-title">
+            <h1>Admin Profile</h1>
+            <span id="profileTypeBadge" class="badge">Admin</span>
+          </div>
+        </div>
+
+        <form class="profile-form" id="profileForm">
+          <div class="form-group">
+            <label for="username">Name</label>
+            <input type="text" id="username" placeholder="e.g. Administrator" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="e.g. admin@dinedelight.com" />
+          </div>
+
+          <p id="infoMessage" class="info-message"></p>
+
+          <button type="submit" id="saveBtn" class="save-btn">
+            <i class="fa-solid fa-floppy-disk"></i> Save Changes
+          </button>
+
+          <button class="back-to-menu-btn" id="backToDashboardBtn" type="button">
+            <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+          </button>
+        </form>
+
+        <div style="margin-top:1rem;">
+          <h2 style="font-size:1.1rem; margin-bottom:0.6rem;">Change Password</h2>
+          <form id="adminPasswordForm" class="profile-form">
+            <div class="form-group">
+              <label for="currentPassword">Current Password</label>
+              <input type="password" id="currentPassword" placeholder="Current password" />
+            </div>
+            <div class="form-group">
+              <label for="newPassword">New Password</label>
+              <input type="password" id="newPassword" placeholder="New password" />
+            </div>
+            <button type="submit" class="save-btn"><i class="fa-solid fa-key"></i> Update Password</button>
+            <div id="passwordResult" class="info-message"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="profile.js"></script>
+</body>
+</html>

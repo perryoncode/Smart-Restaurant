@@ -1,12 +1,16 @@
+# <!-- Akarshi -->
 from fastapi import FastAPI, Query
 from starlette.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 from dotenv import load_dotenv
+import bcrypt
+import secrets
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 import os
 from datetime import datetime
-import random
+
+from fastapi import Request
 
 load_dotenv()
 
@@ -29,6 +33,28 @@ userCollection = db["users"]
 dishesCollection = db["dishes"]
 tablesCollection = db["tables"]
 ordersCollection = db["orders"]
+adminsCollection = db["admins"]
+adminSessionsCollection = db["admin_sessions"]
+
+# Admin credentials (simple): set ADMIN_PASSWORD and ADMIN_TOKEN in env for production
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "adminpass")
+ADMIN_TOKEN = os.getenv("ADMIN_TOKEN", "admintoken")
+
+# Ensure default admin account exists
+def ensure_default_admin():
+    try:
+        if not adminsCollection.find_one({"email": "admin@dinedelight.com"}):
+            pw_hash = bcrypt.hashpw("123".encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+            adminsCollection.insert_one({
+                "email": "admin@dinedelight.com",
+                "name": "Administrator",
+                "password_hash": pw_hash,
+                "created_at": datetime.utcnow(),
+            })
+    except Exception:
+        pass
+
+ensure_default_admin()
 
 
 # -------------------- Models --------------------
@@ -103,6 +129,103 @@ def register(user: User):
     return {"response": "success"}
 
 
+class AdminLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+
+@app.post("/admin/login")
+def admin_login(payload: AdminLogin):
+    admin = adminsCollection.find_one({"email": payload.email})
+    if not admin:
+        return {"response": "not_found"}
+    pw_hash = admin.get("password_hash", "")
+    try:
+        ok = bcrypt.checkpw(payload.password.encode("utf-8"), pw_hash.encode("utf-8"))
+    except Exception:
+        ok = False
+    if not ok:
+        return {"response": "invalid_password"}
+    token = secrets.token_hex(16)
+    adminSessionsCollection.insert_one({
+        "admin_id": admin.get("_id"),
+        "token": token,
+        "created_at": datetime.utcnow(),
+    })
+    return {"response": "success", "token": token, "email": admin.get("email"), "name": admin.get("name", "")}
+
+
+def get_admin_by_token(token: str):
+    if not token:
+        return None
+    sess = adminSessionsCollection.find_one({"token": token})
+    if not sess:
+        return None
+    admin = adminsCollection.find_one({"_id": sess.get("admin_id")})
+    return admin
+
+
+@app.get("/admin/me")
+def admin_me(request: Request):
+    token = request.headers.get("x-admin-token") or request.headers.get("X-Admin-Token")
+    admin = get_admin_by_token(token)
+    if not admin:
+        return {"response": "unauthorized"}
+    admin_info = {
+        "email": admin.get("email"),
+        "name": admin.get("name", ""),
+    }
+    return {"response": "success", "admin": admin_info}
+
+
+class AdminChangePassword(BaseModel):
+    current_password: str
+    new_password: str
+
+
+@app.put("/admin/change_password")
+def admin_change_password(payload: AdminChangePassword, request: Request):
+    token = request.headers.get("x-admin-token") or request.headers.get("X-Admin-Token")
+    admin = get_admin_by_token(token)
+    if not admin:
+        return {"response": "unauthorized"}
+    pw_hash = admin.get("password_hash", "")
+    try:
+        ok = bcrypt.checkpw(payload.current_password.encode("utf-8"), pw_hash.encode("utf-8"))
+    except Exception:
+        ok = False
+    if not ok:
+        return {"response": "invalid_password"}
+    new_hash = bcrypt.hashpw(payload.new_password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+    adminsCollection.update_one({"_id": admin.get("_id")}, {"$set": {"password_hash": new_hash}})
+    return {"response": "success"}
+
+
+class AdminUpdate(BaseModel):
+    email: Optional[EmailStr] = None
+    name: Optional[str] = None
+
+
+@app.put("/admin/update")
+def admin_update(payload: AdminUpdate, request: Request):
+    token = request.headers.get("x-admin-token") or request.headers.get("X-Admin-Token")
+    admin = get_admin_by_token(token)
+    if not admin:
+        return {"response": "unauthorized"}
+    update_fields = {}
+    if payload.name is not None:
+        update_fields["name"] = payload.name
+    if payload.email is not None and payload.email != admin.get("email"):
+        # ensure unique email
+        if adminsCollection.find_one({"email": payload.email, "_id": {"$ne": admin.get("_id")}}):
+            return {"response": "alreadyExists"}
+        update_fields["email"] = payload.email
+    if not update_fields:
+        return {"response": "no_update_fields"}
+    adminsCollection.update_one({"_id": admin.get("_id")}, {"$set": update_fields})
+    return {"response": "success"}
+
+
 @app.post("/login")
 def login(user: LoginUser):
     userInDb = userCollection.find_one({"mail": user.mail})
@@ -166,6 +289,7 @@ def get_profile(id: str = Query(None), mail: str = Query(None)):
 # -------------------- Admin Users --------------------
 @app.get("/users")
 def get_users():
+    # NOTE: Page-level auth should prevent access to this in production.
     users = []
     cursor = userCollection.find({})
     for u in cursor:
