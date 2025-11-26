@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   orderCountEl.textContent = '...';
 
   function loadStats(){
-    fetch(`http://20.197.51.157:8000/stats?t=${Date.now()}`, { cache: 'no-store' })
+    fetch(`https://api.dinedelight.tech/stats?t=${Date.now()}`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
         if (data && data.response === 'success') {
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     Object.keys(charts).forEach(k => { if(charts[k]) { charts[k].destroy(); charts[k] = null; } });
 
     // Most ordered items can remain overall or be month-filtered; keep overall for now
-    fetch(`http://20.197.51.157:8000/analytics?t=${Date.now()}`, { cache: 'no-store' })
+    fetch(`https://api.dinedelight.tech/analytics?t=${Date.now()}`, { cache: 'no-store' })
     .then(res => res.json())
     .then(data => {
       if (!data || data.response !== 'success') return;
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       // Monthly Sales Bar Chart (per month totals)
       // Fetch monthly series separately
-      fetch(`http://20.197.51.157:8000/analytics/monthly?t=${Date.now()}`, { cache: 'no-store' })
+      fetch(`https://api.dinedelight.tech/analytics/monthly?t=${Date.now()}`, { cache: 'no-store' })
         .then(res => res.json())
         .then(mData => {
           if (!mData || mData.response !== 'success') return;
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(() => {});
 
     // Daily sales chart
-    fetch(`http://20.197.51.157:8000/analytics/daily?t=${Date.now()}`, { cache: 'no-store' })
+    fetch(`https://api.dinedelight.tech/analytics/daily?t=${Date.now()}`, { cache: 'no-store' })
     .then(res => res.json())
     .then(data => {
       if (!data || data.response !== 'success') return;
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Category-wise items pie chart
   const categoryItemsCanvas = document.getElementById('categoryItemsChart');
   // Category-wise items pie chart
-    fetch(`http://20.197.51.157:8000/analytics/categories?t=${Date.now()}`, { cache: 'no-store' })
+    fetch(`https://api.dinedelight.tech/analytics/categories?t=${Date.now()}`, { cache: 'no-store' })
     .then(res => res.json())
     .then(data => {
       if (!data || data.response !== 'success') return;
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(() => {});
 
   // Top customers chart
-    fetch(`http://20.197.51.157:8000/analytics/top_customers?t=${Date.now()}`, { cache: 'no-store' })
+    fetch(`https://api.dinedelight.tech/analytics/top_customers?t=${Date.now()}`, { cache: 'no-store' })
     .then(res => res.json())
     .then(data => {
       if (!data || data.response !== 'success') return;

@@ -17,7 +17,7 @@ async function register(e) {
             password
         }
     )
-    const postBackend = await fetch("http://20.197.51.157:8000/register", {
+    const postBackend = await fetch("https://20.197.51.157:8000/register", {
         headers: {
             "Content-Type": "application/json",
         },

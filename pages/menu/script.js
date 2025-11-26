@@ -3,7 +3,7 @@ setTimeout(() => {
   }
 }, 2000);
 
-const API_BASE = "http://20.197.51.157:8000";
+const API_BASE = "https://api.dinedelight.tech";
 
 const menuContainer = document.querySelector(".menu");
 const input = document.getElementById("searchInput");

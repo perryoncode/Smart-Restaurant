@@ -1,4 +1,3 @@
-# <!-- Akarshi -->
 from fastapi import FastAPI, Query
 from starlette.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
@@ -23,10 +22,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MONGO_URI = os.getenv(
-    "MONGO_URI",
-    "mongodb+srv://codewithperry:uYIoXdcbIBi3qdBh@cluster0.iub7ykj.mongodb.net/",
-)
+MONGO_URI = os.getenv("MONGO_URI")
+if not MONGO_URI:
+    raise RuntimeError("MONGO_URI is not set. Configure it in environment or .env")
 client = MongoClient(MONGO_URI)
 db = client["Restaurant"]
 userCollection = db["users"]

@@ -1,6 +1,6 @@
 (function(){
   // admin-auth.js: include on every admin page to require login
-  const API_BASE = (typeof window !== 'undefined') ? (window.API_BASE || 'http://20.197.51.157:8000') : 'http://20.197.51.157:8000';
+  const API_BASE = (typeof window !== 'undefined') ? (window.API_BASE || 'https://api.dinedelight.tech') : 'https://api.dinedelight.tech';
   function getToken(){ try{ return localStorage.getItem('admin_token'); }catch(e){ return null; } }
   const token = getToken();
   // allow login page to be public

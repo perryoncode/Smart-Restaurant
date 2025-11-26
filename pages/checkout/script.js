@@ -1,5 +1,5 @@
 // ==== CONFIG ====
-const API_BASE = "http://20.197.51.157:8000"; // same as menu page
+const API_BASE = "https://api.dinedelight.tech"; // same as menu page
 
 // ==== ELEMENTS ====
 const itemsContainer = document.getElementById("checkoutItems");

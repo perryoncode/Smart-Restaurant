@@ -1,5 +1,5 @@
 // ==== CONFIG ====
-const API_BASE = "http://20.197.51.157:8000";
+const API_BASE = "https://api.dinedelight.tech";
 
 // ==== ELEMENTS ====
 const myProfile = document.querySelector(".myProfile");

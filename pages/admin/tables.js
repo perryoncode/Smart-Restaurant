@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			return;
 		}
 		const derivedType = Number(numSeats) === 2 ? 'couple' : (Number(numSeats) === 4 ? 'family' : 'custom');
-		fetch('http://20.197.51.157:8000/tables', {
+		fetch('https://api.dinedelight.tech/tables', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function loadTables() {
 	const listEl = document.getElementById('tablesList');
 	listEl.innerHTML = '<div>Loading tables...</div>';
-	fetch('http://20.197.51.157:8000/tables')
+	fetch('https://api.dinedelight.tech/tables')
 		.then(res => res.json())
 		.then(data => {
 			if (!data || data.response !== 'success') {
@@ -178,7 +178,7 @@ function saveEdit(tableId, seats) {
 		return;
 	}
 	const derivedType = Number(seats) === 2 ? 'couple' : (Number(seats) === 4 ? 'family' : 'custom');
-	fetch(`http://20.197.51.157:8000/tables/${tableId}`, {
+	fetch(`https://api.dinedelight.tech/tables/${tableId}`, {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ table_type: derivedType, seats })
@@ -201,7 +201,7 @@ function saveEdit(tableId, seats) {
 
 function deleteTable(tableId) {
 	if (!confirm(`Delete table ${tableId}? This cannot be undone.`)) return;
-	fetch(`http://20.197.51.157:8000/tables/${tableId}`, { method: 'DELETE' })
+	fetch(`https://api.dinedelight.tech/tables/${tableId}`, { method: 'DELETE' })
 		.then(res => res.json())
 		.then(data => {
 			if (data.response === 'success') {

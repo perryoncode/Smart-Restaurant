@@ -1,5 +1,5 @@
 (function(){
-  const API_BASE = (typeof window !== 'undefined') ? (window.API_BASE || 'http://20.197.51.157:8000') : 'http://20.197.51.157:8000';
+  const API_BASE = (typeof window !== 'undefined') ? (window.API_BASE || 'https://api.dinedelight.tech') : 'https://api.dinedelight.tech';
   const ordersBody = document.getElementById('ordersBody');
   const totalCountEl = document.getElementById('totalCount');
   const filterEmailEl = document.getElementById('filterEmail');

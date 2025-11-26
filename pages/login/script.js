@@ -14,7 +14,7 @@ async function login(e) {
     let password = document.querySelector("#password").value;
     const data = JSON.stringify({ mail, password });
     try {
-        const postBackend = await fetch("http://20.197.51.157:8000/login", {
+        const postBackend = await fetch("https://api.dinedelight.tech/login", {
             headers: { "Content-Type": "application/json" },
             method: "POST",
             body: data
