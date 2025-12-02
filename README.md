@@ -85,6 +85,23 @@ Open `frontend/pages/signup/index.html` in your browser and try registering a us
 
 ---
 
+## 🍔 Seed Initial Data
+
+If your database is empty (e.g., after a reset) and the menu shows no dishes, seed default dishes and tables:
+
+1) Ensure `backend/.env` has a valid `MONGO_URI`.
+
+2) Run the seeder:
+
+```bash
+cd backend
+python3 seed_data.py
+```
+
+This inserts commonly used dishes whose images already exist in `pages/menu/dishes/`, and a few default tables. Re-run the command any time; it upserts by dish name.
+
+---
+
 ## 📁 Project Structure
 
 ```
